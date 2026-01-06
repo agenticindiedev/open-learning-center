@@ -1,0 +1,15 @@
+{
+  "name": "open-learning-center",
+  "private": true,
+  "scripts": {
+    "dev:api": "cd apps/api && bun run start:dev",
+    "dev:frontend": "cd apps/frontend && bun run dev",
+    "dev:mobile": "cd apps/mobile && bun run start",
+    "seed:content": "cd apps/api && bun run seed:content"
+  },
+  "version": "0.0.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

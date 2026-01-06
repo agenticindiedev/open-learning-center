@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Open Learning Center",
+    "slug": "open-learning-center",
+    "version": "1.0.0",
+    "scheme": "open-learning-center",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.openlearningcenter.app"
+    },
+    "android": {
+      "package": "com.openlearningcenter.app"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
