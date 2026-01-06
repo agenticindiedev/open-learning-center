@@ -5,7 +5,7 @@ Full-stack monorepo workspace for learning communities and educational content.
 ## Structure
 
 - `apps/api/` - NestJS backend
-- `apps/frontend/` - NextJS apps
+- `apps/web/` - NextJS web app
 - `apps/mobile/` - React Native + Expo
 - `packages/` - Shared packages
 - `communities/` - Learning community content
@@ -53,8 +53,8 @@ bun install
 # Backend
 bun run dev:api
 
-# Frontend
-bun run dev:frontend
+# Web
+bun run dev:web
 
 # Mobile
 bun run dev:mobile
@@ -65,7 +65,7 @@ bun run dev:mobile
 Copy `.env.example` to `.env` in the root directory and configure the following variables:
 
 - **API** (`apps/api/`): MongoDB connection, Clerk keys, Stripe keys
-- **Frontend** (`apps/frontend/`): Clerk public keys, API endpoints
+- **Web** (`apps/web/`): Clerk public keys, API endpoints
 - **Mobile** (`apps/mobile/`): Clerk keys, API endpoints
 
 See `.env.example` for required environment variables.

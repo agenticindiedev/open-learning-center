@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev:api": "cd apps/api && bun run start:dev",
-    "dev:frontend": "cd apps/frontend && bun run dev",
+    "dev:web": "cd apps/web && bun run dev",
     "dev:mobile": "cd apps/mobile && bun run start",
     "seed:content": "cd apps/api && bun run seed:content"
   },
