@@ -23,7 +23,7 @@
     "react-native-screens": "~4.10.0",
     "lucide-react-native": "~0.470.0",
     "react-native-svg": "~15.9.0",
-    "@clerk/clerk-expo": "~4.0.0",
+    "@clerk/clerk-expo": "latest",
     "expo-secure-store": "~15.0.0"
   },
   "devDependencies": {

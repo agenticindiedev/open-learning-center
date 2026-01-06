@@ -60,6 +60,16 @@ bun run dev:frontend
 bun run dev:mobile
 ```
 
+## Environment Setup
+
+Copy `.env.example` to `.env` in the root directory and configure the following variables:
+
+- **API** (`apps/api/`): MongoDB connection, Clerk keys, Stripe keys
+- **Frontend** (`apps/frontend/`): Clerk public keys, API endpoints
+- **Mobile** (`apps/mobile/`): Clerk keys, API endpoints
+
+See `.env.example` for required environment variables.
+
 ## Documentation
 
 - `.agent/README.md` - AI agent documentation and guidelines
