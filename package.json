@@ -2,6 +2,7 @@
   "name": "open-learning-center",
   "private": true,
   "scripts": {
+    "pre:install": "bun update --latest --recursive && bun install",
     "dev:api": "cd apps/api && bun run start:dev",
     "dev:web": "cd apps/web && bun run dev",
     "dev:mobile": "cd apps/mobile && bun run start",
