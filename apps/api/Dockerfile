@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Install dependencies
 FROM base AS deps
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # Build
@@ -17,5 +17,6 @@ FROM base AS runner
 ENV NODE_ENV=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
-EXPOSE 3001
+COPY package.json ./
+EXPOSE 3010
 CMD ["bun", "run", "start:prod"]

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@agenticindiedev/ui";
+import { Button, Card, CardContent, Skeleton } from "@agenticindiedev/ui";
 import { EventService } from "@services/event.service";
 import { SubscriptionService } from "@services/subscription.service";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
@@ -32,65 +32,83 @@ export default function EventsPage() {
   };
 
   if (loading) {
-    return <div className="py-12 text-sm text-gray-500">Loading events...</div>;
+    return (
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="space-y-6">
+          <div>
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="mt-2 h-5 w-72" />
+          </div>
+          <div className="space-y-4">
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-        {error}
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+          {error}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Live sessions</h1>
-        <p className="mt-2 text-gray-600">Upcoming group calls and workshops.</p>
-      </div>
+    <div className="mx-auto max-w-6xl px-6 py-10">
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Live Sessions</h1>
+          <p className="mt-2 text-muted-foreground">Upcoming group calls and workshops.</p>
+        </div>
 
-      <div className="space-y-4">
-        {events.length === 0 ? (
-          <div className="text-sm text-gray-500">No events scheduled yet.</div>
-        ) : (
-          events.map((event) => (
-            <div
-              key={event._id}
-              className="rounded-xl border border-gray-200 bg-white p-4"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    {event.title}
-                  </h2>
-                  {event.description && (
-                    <p className="mt-2 text-sm text-gray-600">
-                      {event.description}
-                    </p>
-                  )}
-                  <p className="mt-3 text-sm text-gray-500">
-                    {new Date(event.startsAt).toLocaleString()}
-                  </p>
-                </div>
-                {event.meetUrl ? (
-                  <a
-                    href={event.meetUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-semibold text-blue-600"
-                  >
-                    Join meeting
-                  </a>
-                ) : (
-                  <Button onClick={handleSubscribe} disabled={isSubscribed}>
-                    {isSubscribed ? "Subscribed" : "Subscribe for access"}
-                  </Button>
-                )}
-              </div>
-            </div>
-          ))
-        )}
+        <div className="space-y-4">
+          {events.length === 0 ? (
+            <div className="text-sm text-muted-foreground">No events scheduled yet.</div>
+          ) : (
+            events.map((event) => (
+              <Card key={event._id} variant="outline" hover>
+                <CardContent className="p-6">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <h2 className="text-lg font-semibold text-foreground">
+                        {event.title}
+                      </h2>
+                      {event.description && (
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {event.description}
+                        </p>
+                      )}
+                      <p className="mt-3 text-sm text-muted-foreground">
+                        {new Date(event.startsAt).toLocaleString()}
+                      </p>
+                    </div>
+                    {event.meetUrl ? (
+                      <Button asChild variant="primary" size="sm">
+                        <a href={event.meetUrl} target="_blank" rel="noreferrer">
+                          Join meeting
+                        </a>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant={isSubscribed ? "secondary" : "primary"}
+                        size="sm"
+                        onClick={handleSubscribe}
+                        disabled={isSubscribed}
+                      >
+                        {isSubscribed ? "Subscribed" : "Subscribe for access"}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

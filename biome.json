@@ -5,6 +5,9 @@
     "indentWidth": 2
   },
   "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    },
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
     }

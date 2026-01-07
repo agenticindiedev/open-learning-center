@@ -20,7 +20,7 @@ export class ClerkAuthGuard implements CanActivate {
     }
 
     const token = authHeader.replace("Bearer ", "");
-    const clerkSecretKey = this.configService.get<string>("CLERK_SECRET_KEY");
+    const clerkSecretKey = this.configService.get("CLERK_SECRET_KEY");
 
     try {
       const session = await verifyToken(token, {

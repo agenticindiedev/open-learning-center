@@ -1,5 +1,5 @@
-import { CommunitiesView } from "@components/communities/communities-view";
+import { LandingPage } from "@components/landing/landing-page";
 
 export default function HomePage() {
-  return <CommunitiesView />;
+  return <LandingPage />;
 }

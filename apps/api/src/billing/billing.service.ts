@@ -7,7 +7,7 @@ import {
   Subscription,
   type SubscriptionDocument,
 } from "../collections/subscriptions/schemas/subscription.schema";
-import type { ConfigService } from "../config/config.service";
+import { ConfigService } from "../config/config.service";
 
 @Injectable()
 export class BillingService {

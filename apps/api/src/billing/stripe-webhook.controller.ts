@@ -2,9 +2,9 @@ import { Controller, Headers, Post, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ConfigService } from "../config/config.service";
 import type Stripe from "stripe";
-import type { SubscriptionsService } from "../collections/subscriptions/subscriptions.service";
+import { SubscriptionsService } from "../collections/subscriptions/subscriptions.service";
 import type { IRawBodyRequest } from "../types/requests";
-import type { BillingService } from "./billing.service";
+import { BillingService } from "./billing.service";
 
 @ApiTags("webhooks")
 @Controller("webhooks/stripe")
@@ -20,7 +20,7 @@ export class StripeWebhookController {
 		@Req() request: IRawBodyRequest,
 		@Headers("stripe-signature") signature?: string,
 	) {
-		const webhookSecret = this.configService.get<string>("STRIPE_WEBHOOK_SECRET");
+		const webhookSecret = this.configService.get("STRIPE_WEBHOOK_SECRET");
 
 		if (!webhookSecret) {
 			return { received: true };

@@ -3,6 +3,7 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   transpilePackages: ["@agenticindiedev/ui"],
   sassOptions: {
     includePaths: [path.join(__dirname, "node_modules")],

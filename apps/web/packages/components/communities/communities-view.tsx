@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
-import { Button } from "@agenticindiedev/ui";
+import { Badge, Button, Card, CardContent, Skeleton } from "@agenticindiedev/ui";
 import { CommunityService } from "@services/community.service";
 import { MembershipService } from "@services/membership.service";
 import { SubscriptionService } from "@services/subscription.service";
@@ -24,45 +24,73 @@ function CommunityCard({
   const price = community.priceMonthly || 49;
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900">
-            {community.title}
-          </h3>
-          {community.description && (
-            <p className="mt-2 text-sm text-gray-600">
-              {community.description}
-            </p>
+    <Card variant="outline" hover className="p-6">
+      <CardContent className="p-0">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-xl font-semibold text-foreground">
+              {community.title}
+            </h3>
+            {community.description && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                {community.description}
+              </p>
+            )}
+          </div>
+          <Badge variant={isFree ? "success" : "secondary"}>
+            {isFree ? "Free" : `$${price}/mo`}
+          </Badge>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            href={`/communities/${community.slug}`}
+            className="text-sm font-semibold text-primary hover:text-primary/80"
+          >
+            View community
+          </Link>
+          {isFree ? (
+            <Button
+              variant={isJoined ? "secondary" : "primary"}
+              size="sm"
+              onClick={() => onJoin(community._id)}
+              disabled={isJoined}
+            >
+              {isJoined ? "Joined" : "Join free"}
+            </Button>
+          ) : (
+            <Button
+              variant={isSubscribed ? "secondary" : "primary"}
+              size="sm"
+              onClick={onSubscribe}
+              disabled={isSubscribed}
+            >
+              {isSubscribed ? "Subscribed" : "Subscribe"}
+            </Button>
           )}
         </div>
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${
-            isFree ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
-          }`}
-        >
-          {isFree ? "Free" : `$${price}/mo`}
-        </span>
-      </div>
+      </CardContent>
+    </Card>
+  );
+}
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
-        <Link href={`/communities/${community.slug}`} className="text-sm font-semibold">
-          View community
-        </Link>
-        {isFree ? (
-          <Button
-            onClick={() => onJoin(community._id)}
-            disabled={isJoined}
-          >
-            {isJoined ? "Joined" : "Join free"}
-          </Button>
-        ) : (
-          <Button onClick={onSubscribe} disabled={isSubscribed}>
-            {isSubscribed ? "Subscribed" : "Subscribe"}
-          </Button>
-        )}
-      </div>
-    </div>
+function CommunityCardSkeleton(): JSX.Element {
+  return (
+    <Card variant="outline" className="p-6">
+      <CardContent className="p-0 space-y-4">
+        <div className="flex justify-between">
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+          </div>
+          <Skeleton className="h-6 w-16" />
+        </div>
+        <div className="flex gap-3">
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -137,12 +165,24 @@ export function CommunitiesView(): JSX.Element {
   };
 
   if (loading) {
-    return <div className="py-12 text-sm text-gray-500">Loading communities...</div>;
+    return (
+      <div className="space-y-8">
+        <div>
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="mt-2 h-5 w-72" />
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          <CommunityCardSkeleton />
+          <CommunityCardSkeleton />
+          <CommunityCardSkeleton />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
         {error}
       </div>
     );
@@ -151,8 +191,8 @@ export function CommunitiesView(): JSX.Element {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Open Learning Center</h1>
-        <p className="mt-2 text-gray-600">
+        <h1 className="text-3xl font-bold text-foreground">Communities</h1>
+        <p className="mt-2 text-muted-foreground">
           Pick a community, learn fast, and ship real work.
         </p>
       </div>

@@ -20,16 +20,16 @@ export class AdminGuard implements CanActivate {
       throw new UnauthorizedException("No authenticated user");
     }
 
-    const allowlist = (this.configService.get<string>("ADMIN_EMAIL_ALLOWLIST") || "")
+    const allowlist = (this.configService.get("ADMIN_EMAIL_ALLOWLIST") || "")
       .split(",")
-      .map((email) => email.trim().toLowerCase())
+      .map((email: string) => email.trim().toLowerCase())
       .filter(Boolean);
 
     if (allowlist.length === 0) {
       throw new ForbiddenException("Admin allowlist is empty");
     }
 
-    const clerkSecretKey = this.configService.get<string>("CLERK_SECRET_KEY");
+    const clerkSecretKey = this.configService.get("CLERK_SECRET_KEY");
     const clerk = createClerkClient({ secretKey: clerkSecretKey });
     const user = await clerk.users.getUser(userId);
     const primaryEmail = user.emailAddresses.find((email: { id: string; emailAddress: string }) => email.id === user.primaryEmailAddressId)

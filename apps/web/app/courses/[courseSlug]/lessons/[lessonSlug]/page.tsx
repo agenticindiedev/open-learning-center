@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@agenticindiedev/ui";
+import { ArrowLeft } from "lucide-react";
 import { LessonService } from "@services/lesson.service";
 import { SubscriptionService } from "@services/subscription.service";
 import { ProgressService } from "@services/progress.service";
 import { MarkdownRenderer } from "@components/markdown/markdown-renderer";
+import { CommentList } from "@components/comments";
 import type { Lesson } from "@interfaces/lesson.interface";
 
 export default function LessonPage() {
@@ -70,31 +71,41 @@ export default function LessonPage() {
   };
 
   if (loading) {
-    return <div className="py-12 text-sm text-gray-500">Loading lesson...</div>;
+    return <div className="py-12 text-sm text-muted-foreground">Loading lesson...</div>;
   }
 
   if (error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+      <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
         {error}
         <div className="mt-4">
-          <Button onClick={handleSubscribe}>Subscribe for access</Button>
+          <button
+            type="button"
+            onClick={handleSubscribe}
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            Subscribe for access
+          </button>
         </div>
       </div>
     );
   }
 
   if (!lesson) {
-    return <div className="text-sm text-gray-500">Lesson not found.</div>;
+    return <div className="text-sm text-muted-foreground">Lesson not found.</div>;
   }
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8 px-6 py-8">
       <div>
-        <Link href={`/courses/${courseSlug}`} className="text-sm text-gray-500">
+        <Link
+          href={`/courses/${courseSlug}`}
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
           Back to course
         </Link>
-        <h1 className="mt-3 text-3xl font-bold text-gray-900">{lesson.title}</h1>
+        <h1 className="mt-3 text-3xl font-bold text-foreground">{lesson.title}</h1>
       </div>
 
       {lesson.videoId && (
@@ -112,12 +123,27 @@ export default function LessonPage() {
       {lesson.content && <MarkdownRenderer content={lesson.content} />}
 
       <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={handleComplete}>Mark complete</Button>
+        <button
+          type="button"
+          onClick={handleComplete}
+          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+        >
+          Mark complete
+        </button>
         {lesson.isPreview && (
-          <Button variant="ghost" onClick={handleSubscribe}>
+          <button
+            type="button"
+            onClick={handleSubscribe}
+            className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
+          >
             Subscribe for full access
-          </Button>
+          </button>
         )}
+      </div>
+
+      {/* Comments Section */}
+      <div className="border-t border-border pt-8">
+        <CommentList lessonId={lesson._id} />
       </div>
     </div>
   );
