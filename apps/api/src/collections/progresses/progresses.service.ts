@@ -1,4 +1,4 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import type { Model } from 'mongoose';
 import {
@@ -116,7 +116,7 @@ export class ProgressesService {
 
   private async checkAchievements(
     userId: string,
-    lessonId: string,
+    _lessonId: string,
   ): Promise<NewAchievementResult[]> {
     const [lessonCount, projectLessonCount, currentStreak] = await Promise.all([
       this.countUserProgress(userId),

@@ -5,8 +5,8 @@ import type { CreateAchievementDto } from './dto/create-achievement.dto';
 import type { UpdateAchievementDto } from './dto/update-achievement.dto';
 import { Achievement, type AchievementDocument } from './schemas/achievement.schema';
 import {
-  UserAchievement,
   type AchievementMetadata,
+  UserAchievement,
   type UserAchievementDocument,
 } from './schemas/user-achievement.schema';
 
@@ -83,9 +83,7 @@ export class AchievementsService {
       this.findUserAchievements(userId),
     ]);
 
-    const earnedMap = new Map(
-      userAchievements.map((ua) => [ua.achievementId, ua.earnedAt]),
-    );
+    const earnedMap = new Map(userAchievements.map((ua) => [ua.achievementId, ua.earnedAt]));
 
     return achievements.map((achievement) => {
       const doc = achievement as AchievementDocument;

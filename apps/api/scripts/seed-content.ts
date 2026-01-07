@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import mongoose, { Schema } from 'mongoose';
 
 import type { IClassSeed, ILessonSeed } from './interfaces/seed-content.interface';
 
@@ -402,11 +402,10 @@ async function seed(): Promise<void> {
 
   // Seed achievements
   for (const achievement of ACHIEVEMENT_SEEDS) {
-    await AchievementModel.findOneAndUpdate(
-      { slug: achievement.slug },
-      achievement,
-      { new: true, upsert: true },
-    );
+    await AchievementModel.findOneAndUpdate({ slug: achievement.slug }, achievement, {
+      new: true,
+      upsert: true,
+    });
   }
 
   await mongoose.disconnect();

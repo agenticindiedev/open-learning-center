@@ -1,6 +1,15 @@
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@collections': path.resolve(__dirname, 'src/collections'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@guards': path.resolve(__dirname, 'src/guards'),
+      '@helpers': path.resolve(__dirname, 'src/helpers'),
+    },
+  },
   test: {
     globals: true,
     environment: 'node',

@@ -1,6 +1,10 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
-import type { AchievementCategory, AchievementCriteria, AchievementRarity } from '../schemas/achievement.schema';
+import type {
+  AchievementCategory,
+  AchievementCriteria,
+  AchievementRarity,
+} from '../schemas/achievement.schema';
 
 export class CreateAchievementDto {
   @IsString()

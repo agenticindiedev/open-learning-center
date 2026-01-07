@@ -55,12 +55,28 @@ jobs:
     environment: production
 
     steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.2.0
+      - name: Setup Tailscale
+        uses: tailscale/github-action@v2
         with:
-          host: ${{ secrets.EC2_HOST }}
+          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
+          tags: tag:ci
+
+      - name: Verify Tailscale connectivity
+        run: |
+          echo "⏳ Waiting for Tailscale to connect..."
+          timeout 30 bash -c 'until tailscale status >/dev/null 2>&1; do sleep 1; done'
+          echo "✅ Tailscale connected"
+          tailscale ping -c 1 -timeout 10s ${{ vars.TAILSCALE_INSTANCE_IP || secrets.EC2_HOST }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ vars.TAILSCALE_INSTANCE_IP || secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          timeout: 120s
           script: |
             cd /home/${{ secrets.EC2_USER }}/open-learning-center
 

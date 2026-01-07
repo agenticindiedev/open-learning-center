@@ -46,6 +46,9 @@ export class SubscriptionsController {
 
     await this.billingService.cancelSubscription(subscription.stripeSubscriptionId);
 
-    return { success: true, message: 'Subscription will be canceled at the end of the billing period' };
+    return {
+      success: true,
+      message: 'Subscription will be canceled at the end of the billing period',
+    };
   }
 }

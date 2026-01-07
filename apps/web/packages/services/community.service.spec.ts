@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CommunityService } from "./community.service";
 
 const API_URL = "http://localhost:3001";
@@ -6,11 +6,14 @@ const API_URL = "http://localhost:3001";
 describe("CommunityService", () => {
   const mockToken = "mock-token";
   const mockCommunity = {
-    id: "community-1",
-    name: "Test Community",
+    _id: "community-1",
+    title: "Test Community",
     slug: "test-community",
     description: "A test community",
-    createdAt: "2024-01-01T00:00:00Z",
+    isFree: false,
+    isPublished: true,
+    isFeatured: false,
+    sortOrder: 0,
   };
 
   beforeEach(() => {
@@ -122,7 +125,7 @@ describe("CommunityService", () => {
         json: () => Promise.resolve(mockCommunity),
       } as Response);
 
-      const data = { name: "Test Community", slug: "test-community" };
+      const data = { title: "Test Community", slug: "test-community" };
       const result = await CommunityService.create(data);
 
       expect(fetch).toHaveBeenCalledWith(`${API_URL}/communities`, {
@@ -139,13 +142,13 @@ describe("CommunityService", () => {
 
   describe("update", () => {
     it("should update a community", async () => {
-      const updatedCommunity = { ...mockCommunity, name: "Updated Community" };
+      const updatedCommunity = { ...mockCommunity, title: "Updated Community" };
       vi.mocked(fetch).mockResolvedValue({
         ok: true,
         json: () => Promise.resolve(updatedCommunity),
       } as Response);
 
-      const data = { name: "Updated Community" };
+      const data = { title: "Updated Community" };
       const result = await CommunityService.update("community-1", data);
 
       expect(fetch).toHaveBeenCalledWith(`${API_URL}/communities/community-1`, {
