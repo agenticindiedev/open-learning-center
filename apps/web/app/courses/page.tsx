@@ -1,7 +1,8 @@
 "use client";
 
-import { Button, Card, CardContent, CardHeader, Skeleton } from "@agenticindiedev/ui";
+import { Button, Card, CardContent, CardHeader, Loading } from "@agenticindiedev/ui";
 import { useAuth } from "@clerk/nextjs";
+import { RecentAchievements } from "@components/achievements";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
 import type { Course } from "@interfaces/course.interface";
 import type { Lesson } from "@interfaces/lesson.interface";
@@ -15,23 +16,6 @@ import { useEffect, useState } from "react";
 interface CourseWithLessons extends Course {
   lessons: Lesson[];
 }
-
-function CourseCardSkeleton() {
-  return (
-    <Card variant="outline" className="overflow-hidden">
-      <CardHeader className="pb-3">
-        <Skeleton className="h-7 w-3/4" />
-        <Skeleton className="mt-2 h-4 w-full" />
-      </CardHeader>
-      <CardContent className="space-y-2 pt-0">
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
-      </CardContent>
-    </Card>
-  );
-}
-
 interface CourseCardProps {
   course: CourseWithLessons;
   isSubscribed: boolean;
@@ -202,16 +186,8 @@ export default function CoursesPage() {
 
   if (loading || isCheckingSubscription) {
     return (
-      <div className="mx-auto max-w-4xl px-6 py-10">
-        <div className="mb-8">
-          <Skeleton className="h-10 w-48" />
-          <Skeleton className="mt-2 h-5 w-72" />
-        </div>
-        <div className="space-y-6">
-          <CourseCardSkeleton />
-          <CourseCardSkeleton />
-          <CourseCardSkeleton />
-        </div>
+      <div className="mx-auto max-w-4xl px-6 py-10 flex items-center justify-center min-h-[50vh]">
+        <Loading variant="spinner" className="h-8 w-8" />
       </div>
     );
   }
@@ -227,7 +203,7 @@ export default function CoursesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
+    <div className="mx-auto max-w-6xl px-6 py-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">Your Learning Path</h1>
         <p className="mt-2 text-muted-foreground">
@@ -235,22 +211,36 @@ export default function CoursesPage() {
         </p>
       </div>
 
-      {courses.length === 0 ? (
-        <div className="rounded-lg border border-border bg-muted/50 p-8 text-center">
-          <p className="text-muted-foreground">No courses available yet.</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main content - courses */}
+        <div className="lg:col-span-2">
+          {courses.length === 0 ? (
+            <div className="rounded-lg border border-border bg-muted/50 p-8 text-center">
+              <p className="text-muted-foreground">No courses available yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {courses.map((course) => (
+                <CourseCard
+                  key={course._id}
+                  course={course}
+                  isSubscribed={isSubscribed}
+                  onSubscribe={handleSubscribe}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="space-y-6">
-          {courses.map((course) => (
-            <CourseCard
-              key={course._id}
-              course={course}
-              isSubscribed={isSubscribed}
-              onSubscribe={handleSubscribe}
-            />
-          ))}
-        </div>
-      )}
+
+        {/* Sidebar - achievements widget */}
+        {isSignedIn && (
+          <div className="lg:col-span-1">
+            <div className="sticky top-6">
+              <RecentAchievements />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

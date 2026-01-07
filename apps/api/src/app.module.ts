@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BillingModule } from './billing/billing.module';
+import { AchievementsModule } from './collections/achievements/achievements.module';
 import { CommentsModule } from './collections/comments/comments.module';
 import { CommunitiesModule } from './collections/communities/communities.module';
 import { CoursesModule } from './collections/courses/courses.module';
@@ -22,6 +23,7 @@ import { ConfigService } from './config/config.service';
       }),
       inject: [ConfigService],
     }),
+    AchievementsModule,
     CommunitiesModule,
     CommentsModule,
     CoursesModule,

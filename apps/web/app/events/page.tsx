@@ -1,29 +1,12 @@
 "use client";
 
-import { Button, Card, CardContent, Skeleton } from "@agenticindiedev/ui";
+import { Button, Card, CardContent, Loading } from "@agenticindiedev/ui";
 import type { Event } from "@interfaces/event.interface";
 import { EventService } from "@services/event.service";
 import { Calendar, Clock, ExternalLink, Video } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 type TabType = "upcoming" | "past";
-
-function EventCardSkeleton() {
-  return (
-    <Card variant="outline">
-      <CardContent className="p-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-32" />
-          </div>
-          <Skeleton className="h-9 w-28" />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
 function EventCard({ event, isPast }: { event: Event; isPast: boolean }) {
   const eventDate = new Date(event.startsAt);
@@ -132,15 +115,8 @@ export default function EventsPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-4xl px-6 py-10">
-        <div className="mb-8">
-          <Skeleton className="h-10 w-48" />
-          <Skeleton className="mt-2 h-5 w-72" />
-        </div>
-        <div className="space-y-4">
-          <EventCardSkeleton />
-          <EventCardSkeleton />
-        </div>
+      <div className="mx-auto max-w-4xl px-6 py-10 flex items-center justify-center min-h-[50vh]">
+        <Loading variant="spinner" className="h-8 w-8" />
       </div>
     );
   }

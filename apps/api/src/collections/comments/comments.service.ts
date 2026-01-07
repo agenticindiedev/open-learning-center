@@ -2,10 +2,19 @@ import { createClerkClient } from '@clerk/backend';
 import type { CreateCommentDto } from '@collections/comments/dto/create-comment.dto';
 import type { UpdateCommentDto } from '@collections/comments/dto/update-comment.dto';
 import { Comment, type CommentDocument } from '@collections/comments/schemas/comment.schema';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import type { Model } from 'mongoose';
 import { ConfigService } from '../../config/config.service';
+import {
+  AchievementsService,
+  type NewAchievementResult,
+} from '../achievements/achievements.service';
+
+export interface CommentCreateResult {
+  comment: Comment;
+  newAchievements: NewAchievementResult[];
+}
 
 @Injectable()
 export class CommentsService {
@@ -13,9 +22,11 @@ export class CommentsService {
     @InjectModel(Comment.name)
     private commentModel: Model<CommentDocument>,
     private readonly configService: ConfigService,
+    @Inject(forwardRef(() => AchievementsService))
+    private achievementsService: AchievementsService,
   ) {}
 
-  async create(createCommentDto: CreateCommentDto, userId: string): Promise<Comment> {
+  async create(createCommentDto: CreateCommentDto, userId: string): Promise<CommentCreateResult> {
     const { userName, userAvatar } = await this.getUserInfo(userId);
 
     const comment = new this.commentModel({
@@ -25,7 +36,21 @@ export class CommentsService {
       userAvatar,
     });
 
-    return comment.save();
+    const savedComment = await comment.save();
+    const newAchievements = await this.checkAchievements(userId);
+
+    return { comment: savedComment, newAchievements };
+  }
+
+  async countUserComments(userId: string): Promise<number> {
+    return this.commentModel.countDocuments({ userId });
+  }
+
+  private async checkAchievements(userId: string): Promise<NewAchievementResult[]> {
+    const commentCount = await this.countUserComments(userId);
+    return this.achievementsService.checkAndAwardAchievements(userId, {
+      commentCount,
+    });
   }
 
   async findByLessonId(lessonId: string): Promise<Comment[]> {

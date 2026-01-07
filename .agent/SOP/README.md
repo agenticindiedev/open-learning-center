@@ -58,9 +58,7 @@ What's needed before starting.
 
 ## Available SOPs
 
-<!-- Add links to SOPs as you create them -->
-
-- (Add SOPs here)
+- [Content Authoring](./content-authoring.md) - Markdown features, embeds, code blocks, collapsibles
 
 ---
 

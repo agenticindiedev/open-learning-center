@@ -133,9 +133,191 @@ const LessonSchema = new Schema(
   { timestamps: true },
 );
 
+const AchievementSchema = new Schema(
+  {
+    slug: { type: String, unique: true },
+    title: String,
+    description: String,
+    icon: String,
+    category: String,
+    rarity: String,
+    criteria: Object,
+    sortOrder: Number,
+  },
+  { timestamps: true },
+);
+
 const ClassModel = mongoose.model('Class', ClassSchema);
 const CourseModel = mongoose.model('Course', CourseSchema);
 const LessonModel = mongoose.model('Lesson', LessonSchema);
+const AchievementModel = mongoose.model('Achievement', AchievementSchema);
+
+interface AchievementSeed {
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: 'completion' | 'shipping' | 'engagement';
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  criteria: { type: string; value: number };
+  sortOrder: number;
+}
+
+const ACHIEVEMENT_SEEDS: AchievementSeed[] = [
+  // Completion trophies
+  {
+    slug: 'first-steps',
+    title: 'First Steps',
+    description: 'Complete your first lesson',
+    icon: 'rocket',
+    category: 'completion',
+    rarity: 'common',
+    criteria: { type: 'lesson_count', value: 1 },
+    sortOrder: 1,
+  },
+  {
+    slug: 'getting-momentum',
+    title: 'Getting Momentum',
+    description: 'Complete 10 lessons',
+    icon: 'zap',
+    category: 'completion',
+    rarity: 'common',
+    criteria: { type: 'lesson_count', value: 10 },
+    sortOrder: 2,
+  },
+  {
+    slug: 'dedicated-learner',
+    title: 'Dedicated Learner',
+    description: 'Complete 25 lessons',
+    icon: 'book-open',
+    category: 'completion',
+    rarity: 'rare',
+    criteria: { type: 'lesson_count', value: 25 },
+    sortOrder: 3,
+  },
+  {
+    slug: 'knowledge-seeker',
+    title: 'Knowledge Seeker',
+    description: 'Complete 50 lessons',
+    icon: 'graduation-cap',
+    category: 'completion',
+    rarity: 'epic',
+    criteria: { type: 'lesson_count', value: 50 },
+    sortOrder: 4,
+  },
+  {
+    slug: 'master-student',
+    title: 'Master Student',
+    description: 'Complete 100 lessons',
+    icon: 'crown',
+    category: 'completion',
+    rarity: 'legendary',
+    criteria: { type: 'lesson_count', value: 100 },
+    sortOrder: 5,
+  },
+  // Shipping trophies (project lessons)
+  {
+    slug: 'first-ship',
+    title: 'First Ship',
+    description: 'Complete your first project lesson',
+    icon: 'package',
+    category: 'shipping',
+    rarity: 'common',
+    criteria: { type: 'project_lesson_count', value: 1 },
+    sortOrder: 10,
+  },
+  {
+    slug: 'builder',
+    title: 'Builder',
+    description: 'Complete 5 project lessons',
+    icon: 'hammer',
+    category: 'shipping',
+    rarity: 'rare',
+    criteria: { type: 'project_lesson_count', value: 5 },
+    sortOrder: 11,
+  },
+  {
+    slug: 'serial-shipper',
+    title: 'Serial Shipper',
+    description: 'Complete 10 project lessons',
+    icon: 'boxes',
+    category: 'shipping',
+    rarity: 'epic',
+    criteria: { type: 'project_lesson_count', value: 10 },
+    sortOrder: 12,
+  },
+  {
+    slug: 'master-builder',
+    title: 'Master Builder',
+    description: 'Complete 20 project lessons',
+    icon: 'trophy',
+    category: 'shipping',
+    rarity: 'legendary',
+    criteria: { type: 'project_lesson_count', value: 20 },
+    sortOrder: 13,
+  },
+  // Engagement trophies
+  {
+    slug: 'first-voice',
+    title: 'First Voice',
+    description: 'Post your first comment',
+    icon: 'message-circle',
+    category: 'engagement',
+    rarity: 'common',
+    criteria: { type: 'comment_count', value: 1 },
+    sortOrder: 20,
+  },
+  {
+    slug: 'contributor',
+    title: 'Contributor',
+    description: 'Post 10 comments',
+    icon: 'messages-square',
+    category: 'engagement',
+    rarity: 'rare',
+    criteria: { type: 'comment_count', value: 10 },
+    sortOrder: 21,
+  },
+  {
+    slug: 'community-pillar',
+    title: 'Community Pillar',
+    description: 'Post 50 comments',
+    icon: 'users',
+    category: 'engagement',
+    rarity: 'epic',
+    criteria: { type: 'comment_count', value: 50 },
+    sortOrder: 22,
+  },
+  {
+    slug: 'week-warrior',
+    title: 'Week Warrior',
+    description: 'Complete lessons 7 days in a row',
+    icon: 'flame',
+    category: 'engagement',
+    rarity: 'rare',
+    criteria: { type: 'streak_days', value: 7 },
+    sortOrder: 23,
+  },
+  {
+    slug: 'month-master',
+    title: 'Month Master',
+    description: 'Complete lessons 30 days in a row',
+    icon: 'fire',
+    category: 'engagement',
+    rarity: 'epic',
+    criteria: { type: 'streak_days', value: 30 },
+    sortOrder: 24,
+  },
+  {
+    slug: 'unstoppable',
+    title: 'Unstoppable',
+    description: 'Complete lessons 100 days in a row',
+    icon: 'star',
+    category: 'engagement',
+    rarity: 'legendary',
+    criteria: { type: 'streak_days', value: 100 },
+    sortOrder: 25,
+  },
+];
 
 function toSlug(value: string): string {
   return value
@@ -216,6 +398,15 @@ async function seed(): Promise<void> {
         { new: true, upsert: true },
       );
     }
+  }
+
+  // Seed achievements
+  for (const achievement of ACHIEVEMENT_SEEDS) {
+    await AchievementModel.findOneAndUpdate(
+      { slug: achievement.slug },
+      achievement,
+      { new: true, upsert: true },
+    );
   }
 
   await mongoose.disconnect();

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Skeleton } from "@agenticindiedev/ui";
+import { Button, Loading } from "@agenticindiedev/ui";
 import { useAuth } from "@clerk/nextjs";
 import { MarkdownRenderer } from "@components/markdown/markdown-renderer";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
@@ -274,24 +274,8 @@ export default function LessonPage() {
 
   if (loading && !course) {
     return (
-      <div className="flex min-h-[calc(100vh-73px)]">
-        <aside className="hidden lg:block w-80 shrink-0 border-r border-border bg-card/50 p-4">
-          <Skeleton className="h-4 w-20 mb-4" />
-          <Skeleton className="h-6 w-48 mb-2" />
-          <Skeleton className="h-3 w-24 mb-4" />
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </div>
-        </aside>
-        <main className="flex-1 p-8">
-          <Skeleton className="h-10 w-3/4 mb-8" />
-          <Skeleton className="h-64 w-full mb-6" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-2/3" />
-        </main>
+      <div className="flex min-h-[calc(100vh-73px)] items-center justify-center">
+        <Loading variant="spinner" className="h-8 w-8" />
       </div>
     );
   }

@@ -3,8 +3,6 @@
 import {
   SignedIn,
   SignedOut,
-  SignInButton,
-  SignUpButton,
   useAuth,
   UserButton,
   useUser,
@@ -102,6 +100,12 @@ export function Header() {
             Tools
           </Link>
           <SignedIn>
+            <Link
+              href="/achievements"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Trophies
+            </Link>
             {isAdmin && (
               <Link
                 href="/admin"
@@ -119,22 +123,18 @@ export function Header() {
             />
           </SignedIn>
           <SignedOut>
-            <SignInButton>
-              <button
-                type="button"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Sign In
-              </button>
-            </SignInButton>
-            <SignUpButton>
-              <button
-                type="button"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-md shadow-primary/20 transition-colors hover:bg-primary/90"
-              >
-                Get Started
-              </button>
-            </SignUpButton>
+            <Link
+              href="/sign-in"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/sign-up"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-md shadow-primary/20 transition-colors hover:bg-primary/90"
+            >
+              Get Started
+            </Link>
           </SignedOut>
         </nav>
       </div>

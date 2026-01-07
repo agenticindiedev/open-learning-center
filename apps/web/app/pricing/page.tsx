@@ -1,14 +1,12 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { SubscriptionService } from "@services/subscription.service";
+import { PricingCard, INCLUDED_FEATURES } from "@components/pricing";
 import {
   ArrowRight,
   BookOpen,
   Calendar,
-  Check,
   Code,
-  Loader2,
   Megaphone,
   MessageCircle,
   ShoppingBag,
@@ -17,7 +15,6 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const PATHS = [
   {
@@ -82,83 +79,8 @@ const FEATURES = [
   },
 ];
 
-const INCLUDED_FEATURES = [
-  "Full access to all courses",
-  "Private Discord community",
-  "Live events & workshops",
-  "1-on-1 coaching calls",
-  "Lesson comments & discussion",
-  "New content monthly",
-  "Cancel anytime",
-];
-
 export default function PricingPage() {
   const { isSignedIn } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isCheckingStatus, setIsCheckingStatus] = useState(true);
-  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
-  const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!isSignedIn) {
-      setIsCheckingStatus(false);
-      setHasActiveSubscription(false);
-      return;
-    }
-
-    SubscriptionService.getMine()
-      .then((subscriptions) => {
-        const activeSub = subscriptions.find((sub) => sub.status === "active");
-        setHasActiveSubscription(!!activeSub);
-        if (activeSub?.currentPeriodEnd) {
-          setSubscriptionEnd(new Date(activeSub.currentPeriodEnd).toLocaleDateString());
-        }
-      })
-      .catch(() => setHasActiveSubscription(false))
-      .finally(() => setIsCheckingStatus(false));
-  }, [isSignedIn]);
-
-  const handleSubscribe = async () => {
-    if (!isSignedIn) {
-      window.location.href = "/sign-up";
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const { url } = await SubscriptionService.createCheckout();
-      if (url) {
-        window.location.href = url;
-      } else {
-        setError("Failed to create checkout session. Please try again.");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleManageSubscription = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const { url } = await SubscriptionService.createPortalSession();
-      if (url) {
-        window.location.href = url;
-      } else {
-        setError("Failed to open billing portal. Please try again.");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -255,100 +177,7 @@ export default function PricingPage() {
       {/* Pricing Card */}
       <section className="py-12">
         <div className="mx-auto max-w-xl px-6">
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
-            {/* Popular badge */}
-            <div className="absolute right-6 top-6">
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary ring-1 ring-primary/20">
-                Most Popular
-              </span>
-            </div>
-
-            <div className="p-8 pt-12">
-              <h3 className="text-2xl font-bold text-foreground">Full Access Membership</h3>
-              <p className="mt-2 text-muted-foreground">
-                Everything you need to build, sell, and scale with AI.
-              </p>
-
-              <div className="mt-6 flex items-baseline gap-2">
-                <span className="text-5xl font-bold tracking-tight text-foreground">$49</span>
-                <span className="text-muted-foreground">/month</span>
-              </div>
-
-              {/* Features list */}
-              <ul className="mt-8 space-y-3">
-                {INCLUDED_FEATURES.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-sm text-foreground">
-                    <Check className="h-5 w-5 flex-shrink-0 text-primary" />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Error message */}
-              {error && (
-                <div className="mt-6 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-                  {error}
-                </div>
-              )}
-
-              {/* CTA Button */}
-              <div className="mt-8">
-                {isCheckingStatus ? (
-                  <div className="flex h-14 items-center justify-center rounded-xl bg-muted">
-                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                  </div>
-                ) : hasActiveSubscription ? (
-                  <div className="space-y-4">
-                    <div className="rounded-xl bg-emerald-500/10 p-4 text-center">
-                      <p className="font-medium text-emerald-600 dark:text-emerald-400">
-                        You have an active subscription
-                      </p>
-                      {subscriptionEnd && (
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          Renews on {subscriptionEnd}
-                        </p>
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleManageSubscription}
-                      disabled={isLoading}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background px-6 py-4 text-base font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50"
-                    >
-                      {isLoading ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
-                      ) : (
-                        <>
-                          Manage Subscription
-                          <ArrowRight className="h-5 w-5" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleSubscribe}
-                    disabled={isLoading}
-                    className="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50"
-                  >
-                    {isLoading ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                    ) : (
-                      <>
-                        {isSignedIn ? "Subscribe Now" : "Get Started"}
-                        <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-
-              <p className="mt-4 text-center text-xs text-muted-foreground">
-                Secure payment powered by Stripe. Cancel anytime.
-              </p>
-            </div>
-          </div>
+          <PricingCard variant="interactive" featureStyle="checklist" />
         </div>
       </section>
 
