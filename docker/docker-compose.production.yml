@@ -1,6 +1,6 @@
 # Docker Compose v2 Configuration
-# Production Docker Compose for Open Learning Center
-# Services: API (3010), Web (3000)
+# Production Docker Compose for Open Learning Center API
+# Web frontend is deployed on Vercel
 #
 # Usage:
 #   docker compose -f docker/docker-compose.production.yml up -d --build
@@ -8,8 +8,8 @@
 services:
   api:
     build:
-      context: ../apps/api
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: apps/api/Dockerfile
     image: ghcr.io/agenticindiedev/open-learning-center-api:latest
     container_name: olc-api
     restart: unless-stopped
@@ -17,7 +17,6 @@ services:
       - '3010:3010'
     env_file:
       - ../.env.production
-      - ../apps/api/.env.production
     environment:
       - NODE_ENV=production
       - PORT=3010
@@ -25,37 +24,6 @@ services:
       - olc-network
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3010/api/docs']
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
-
-  web:
-    build:
-      context: ../apps/web
-      dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-        - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
-    image: ghcr.io/agenticindiedev/open-learning-center-web:latest
-    container_name: olc-web
-    depends_on:
-      api:
-        condition: service_healthy
-    restart: unless-stopped
-    ports:
-      - '3000:3000'
-    env_file:
-      - ../.env.production
-      - ../apps/web/.env.production
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-    networks:
-      - olc-network
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 30s
       timeout: 10s
       retries: 5

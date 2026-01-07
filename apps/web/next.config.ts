@@ -3,7 +3,6 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: "standalone",
   transpilePackages: ["@agenticindiedev/ui"],
   sassOptions: {
     includePaths: [path.join(__dirname, "node_modules")],
@@ -22,7 +21,7 @@ const nextConfig: NextConfig = {
         rule.test &&
         typeof rule.test === "object" &&
         "toString" in rule.test &&
-        rule.test.toString().includes("scss"),
+        rule.test.toString().includes("scss")
     );
 
     if (
