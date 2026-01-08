@@ -252,7 +252,7 @@ brew install --cask terminus
 
 2. **Navigate to your project**:
    ```bash
-   cd /Users/decod3rs/www/shipshitdev/oss/open-learning-center
+   cd ~/projects/academy
    ```
 
 3. **Open Cursor/your editor** (if needed):
