@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Loading } from "@agenticindiedev/ui";
+import { Button, Loading } from "@shipshitdev/ui";
 import { useAuth } from "@clerk/nextjs";
 import { MarkdownRenderer } from "@components/markdown/markdown-renderer";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";

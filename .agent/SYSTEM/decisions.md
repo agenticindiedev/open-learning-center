@@ -1,7 +1,7 @@
 # decisions.md
 
 - Product name: Open Learning Center
-- Repo path: /Users/decod3rs/www/agenticindiedev/open-learning-center
+- Repo path: /Users/decod3rs/www/shipshitdev/open-learning-center
 - Mobile app: inside monorepo under mobile/
 - Course structure: Community -> Course -> Lesson (no modules in MVP)
 - Editor: Markdown editor with toolbar + live preview

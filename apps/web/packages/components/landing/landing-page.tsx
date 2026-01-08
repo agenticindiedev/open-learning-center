@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@agenticindiedev/ui";
+import { Card, CardContent } from "@shipshitdev/ui";
 import { PRICING_AMOUNT, PricingCard } from "@components/pricing";
 import {
   ArrowRight,

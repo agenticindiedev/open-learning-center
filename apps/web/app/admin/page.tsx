@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent } from "@agenticindiedev/ui";
+import { Card, CardContent } from "@shipshitdev/ui";
 import { BookOpen, Calendar, GraduationCap, type LucideIcon, Users } from "lucide-react";
 import Link from "next/link";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import { useAuth } from "@clerk/nextjs";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
 import type { Community } from "@interfaces/community.interface";

@@ -1,7 +1,7 @@
 @use "tailwindcss";
-@use "@agenticindiedev/ui/themes/dark";
+@use "@shipshitdev/ui/themes/dark";
 
-@source "../../node_modules/@agenticindiedev/ui/dist/**/*.{js,cjs}";
+@source "../../node_modules/@shipshitdev/ui/dist/**/*.{js,cjs}";
 
 :root,
 .dark {

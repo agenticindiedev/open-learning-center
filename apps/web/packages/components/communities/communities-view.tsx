@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, Skeleton } from "@agenticindiedev/ui";
+import { Badge, Button, Card, CardContent, Skeleton } from "@shipshitdev/ui";
 import { useAuth } from "@clerk/nextjs";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
 import type { Community } from "@interfaces/community.interface";

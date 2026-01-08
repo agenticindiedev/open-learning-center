@@ -52,7 +52,7 @@ Add these secrets to your GitHub repository:
 1. Clone the repo to EC2:
    ```bash
    cd ~
-   git clone https://github.com/agenticindiedev/open-learning-center.git
+   git clone https://github.com/shipshitdev/open-learning-center.git
    cd open-learning-center
    ```
 

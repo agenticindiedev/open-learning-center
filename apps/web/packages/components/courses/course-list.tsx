@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import type { Course } from "@interfaces/course.interface";
 import { CourseService } from "@services/course.service";
 import { useEffect, useState } from "react";

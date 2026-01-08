@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, CardContent } from "@agenticindiedev/ui";
+import { Button, Card, CardContent } from "@shipshitdev/ui";
 import type { Lesson } from "@interfaces/lesson.interface";
 import { LessonService } from "@services/lesson.service";
 import { BookOpen, ChevronRight } from "lucide-react";

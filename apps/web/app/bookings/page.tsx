@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
 import { SubscriptionService } from "@services/subscription.service";
 

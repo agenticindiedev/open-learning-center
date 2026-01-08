@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import type { Subscription } from "@interfaces/subscription.interface";
 import { SubscriptionService } from "@services/subscription.service";
 import { useEffect, useState } from "react";

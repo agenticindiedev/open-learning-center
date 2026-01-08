@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, CardContent } from "@agenticindiedev/ui";
+import { Button, Card, CardContent } from "@shipshitdev/ui";
 import type { Event } from "@interfaces/event.interface";
 import { EventService } from "@services/event.service";
 import { Calendar, ChevronRight } from "lucide-react";

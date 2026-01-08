@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import type {
   ICommunityFormProps,
   ICommunityFormValues,

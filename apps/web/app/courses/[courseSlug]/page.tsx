@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
 import type { Course } from "@interfaces/course.interface";
 import type { Lesson } from "@interfaces/lesson.interface";

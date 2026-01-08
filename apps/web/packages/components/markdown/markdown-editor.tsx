@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import type { IMarkdownEditorProps, IToolbarAction } from "@interfaces/markdown-editor.interface";
 import { useMemo, useRef } from "react";
 import { MarkdownRenderer } from "./markdown-renderer";

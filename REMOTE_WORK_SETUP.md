@@ -39,8 +39,8 @@ sudo tailscale up
 
 ### On Your Remote Device
 
-**macOS/iPad/iPhone**: Install from App Store  
-**Linux**: `sudo apt install tailscale` or `sudo yum install tailscale`  
+**macOS/iPad/iPhone**: Install from App Store
+**Linux**: `sudo apt install tailscale` or `sudo yum install tailscale`
 **Windows**: Download from [tailscale.com](https://tailscale.com/download)
 
 ### Verify Connection
@@ -252,7 +252,7 @@ brew install --cask terminus
 
 2. **Navigate to your project**:
    ```bash
-   cd /Users/decod3rs/www/agenticindiedev/oss/open-learning-center
+   cd /Users/decod3rs/www/shipshitdev/oss/open-learning-center
    ```
 
 3. **Open Cursor/your editor** (if needed):
@@ -460,4 +460,3 @@ ssh -p 2222 user@100.x.x.x  # Test SSH connection
 **You're now set up for remote development!** 🚀
 
 Your Claude sessions can continue seamlessly across devices using tmux persistence, Tailscale VPN security, and Terminus remote access.
-

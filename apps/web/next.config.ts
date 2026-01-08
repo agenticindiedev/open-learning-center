@@ -3,14 +3,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["@agenticindiedev/ui"],
+  transpilePackages: ["@shipshitdev/ui"],
   sassOptions: {
     includePaths: [path.join(__dirname, "node_modules")],
   },
   // Empty turbopack config to acknowledge we have webpack config but want Turbopack
   turbopack: {},
   webpack: (config) => {
-    // Configure sass-loader to resolve @agenticindiedev/ui package imports
+    // Configure sass-loader to resolve @shipshitdev/ui package imports
     const rules = config.module.rules;
     const scssRule = rules.find(
       (rule: unknown) =>

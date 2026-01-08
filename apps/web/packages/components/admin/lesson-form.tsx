@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@agenticindiedev/ui";
+import { Button } from "@shipshitdev/ui";
 import { MarkdownEditor } from "@components/markdown/markdown-editor";
 import type { ILessonFormProps, ILessonFormValues } from "@interfaces/lesson-form.interface";
 import { useEffect, useState } from "react";

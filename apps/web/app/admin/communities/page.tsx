@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, CardContent } from "@agenticindiedev/ui";
+import { Button, Card, CardContent } from "@shipshitdev/ui";
 import type { Community } from "@interfaces/community.interface";
 import { CommunityService } from "@services/community.service";
 import { ChevronRight, Users } from "lucide-react";

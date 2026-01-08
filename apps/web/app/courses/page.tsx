@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, CardContent, CardHeader, Loading } from "@agenticindiedev/ui";
+import { Button, Card, CardContent, CardHeader, Loading } from "@shipshitdev/ui";
 import { useAuth } from "@clerk/nextjs";
 import { RecentAchievements } from "@components/achievements";
 import { useSubscriptionStatus } from "@hooks/use-subscription-status";
