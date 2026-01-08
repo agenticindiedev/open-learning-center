@@ -8,7 +8,13 @@
     }
   },
   "files": {
-    "ignoreUnknown": false
+    "includes": [
+      "**",
+      "!**/coverage",
+      "!**/node_modules",
+      "!**/.next",
+      "!**/dist"
+    ]
   },
   "formatter": {
     "enabled": true,

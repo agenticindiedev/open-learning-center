@@ -8,8 +8,7 @@
     }
   },
   "files": {
-    "ignoreUnknown": false,
-    "includes": ["**", "!coverage", "!node_modules", "!.next", "!dist"]
+    "includes": ["**", "!**/coverage", "!**/node_modules", "!**/.next", "!**/dist"]
   },
   "formatter": {
     "enabled": true,
@@ -33,7 +32,6 @@
   "root": false,
   "vcs": {
     "clientKind": "git",
-    "enabled": true,
-    "useIgnoreFile": true
+    "enabled": true
   }
 }

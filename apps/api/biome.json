@@ -9,8 +9,7 @@
   },
   "extends": ["../../biome.json"],
   "files": {
-    "ignoreUnknown": false,
-    "includes": ["src/**", "scripts/**", "*.ts", "*.mts", "*.json"]
+    "includes": ["!**/coverage", "!**/node_modules", "!**/.next", "!**/dist"]
   },
   "formatter": {
     "enabled": true,
@@ -53,7 +52,6 @@
   "root": false,
   "vcs": {
     "clientKind": "git",
-    "enabled": true,
-    "useIgnoreFile": true
+    "enabled": true
   }
 }
